@@ -1,0 +1,17 @@
+0.7.10: branched out
+0.7.9: Added state restore to sensor [thanks to SergeyPomelov]
+0.7.8: Added brightness support.
+0.7.7: Remove deprecated white value code
+       Added units of measurement [thanks Tony763]
+       Added custome effects [thanks Digitalralf]
+       Updated HACS url [thanks wrt54g]
+0.7.6: Remove deprecated fan speeds
+0.7.4: Fix attributes issue.
+0.7.3: Add percentage support to fan
+       Allow user to set availability of the device
+0.7.2: Make virtual part of name optional
+0.7.1: fixed Home Assistant breaking change
+0.4: fixed missing exception
+0.3: added locks
+0.2: added device trackers
+0.1: initial release
