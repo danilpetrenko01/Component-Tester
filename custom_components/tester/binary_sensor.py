@@ -72,7 +72,7 @@ class TesterBinarySensor(BinarySensorEntity):
         self._class = config.get(CONF_CLASS)
         self._state = config.get(CONF_INITIAL_VALUE)
         self._available = config.get(CONF_INITIAL_AVAILABILITY)
-        self._name = self.name[1:]
+        self._name = self.name[]
         self._unique_id = self._name.lower().replace(' ', '_')
 
         _LOGGER.info('TesterBinarySensor: %s created', self._name)
