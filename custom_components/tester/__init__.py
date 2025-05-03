@@ -29,7 +29,7 @@ async def async_setup(hass, config):
 
     @verify_domain_control(hass, COMPONENT_DOMAIN)
     async def async_tester_service_set_available(call) -> None:
-        """Call virtual service handler."""
+        """вызов сервисов."""
         _LOGGER.info("{} service called".format(call.service))
         await async_tester_set_availability_service(hass, call)
 
