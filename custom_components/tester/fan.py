@@ -1,15 +1,6 @@
-"""
-This component provides support for a tester fan.
-
-Borrowed heavily from components/demo/fan.py
-"""
-
 from __future__ import annotations
-
 import logging
-
 import voluptuous as vol
-
 import homeassistant.helpers.config_validation as cv
 from homeassistant.components.fan import (
     SUPPORT_DIRECTION,
@@ -47,31 +38,18 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 
 async def async_setup_platform(_hass, config, async_add_entities, _discovery_info=None):
-    """Set up the Demo config entry."""
     fans = [TesterFan(config)]
     async_add_entities(fans, True)
 
 
 class TesterFan(FanEntity):
-    """A demonstration fan component."""
+    """Тестовый вентилятор"""
 
     def __init__(self, config):
         """Initialize the entity."""
         self._name = config.get(CONF_NAME)
-
-        # Are we adding the domain or not?
-        self.no_domain_ = self._name.startswith("!")
-        if self.no_domain_:
-            self._name = self.name[1:]
         self._unique_id = self._name.lower().replace(' ', '_')
-
-        # Modes if supported
         self._preset_modes = config.get(CONF_MODES, [])
-
-        # Try for speed count then speed. 
-        #  - speed_count; number of speeds we support
-        #  - speed == True; 3 speeds
-        #  - speed == False; no speeds
         self._speed_count = config.get(CONF_SPEED_COUNT)
         if config.get(CONF_SPEED, False):
             self._speed_count = 3
@@ -96,25 +74,21 @@ class TesterFan(FanEntity):
 
     @property
     def name(self) -> str:
-        """Get entity name."""
-        if self.no_domain_:
-            return self._name
-        else:
-            return super().name
+        """Имя вентилятора"""
+        return self._name
 
     @property
     def unique_id(self):
-        """Return the unique id."""
+        """Уникальный id"""
         return self._unique_id
 
     @property
     def should_poll(self):
-        """No polling needed for a demo fan."""
         return False
 
     @property
     def percentage(self) -> int | None:
-        """Return the current speed."""
+        """Текущая скорость"""
         return self._percentage
 
     @property
@@ -193,10 +167,10 @@ class TesterFan(FanEntity):
 
     @property
     def oscillating(self) -> bool:
-        """Oscillating."""
+        """Колебание"""
         return self._oscillating
 
     @property
     def supported_features(self) -> int:
-        """Flag supported features."""
+        """Поддерживаемые вохможности"""
         return self._supported_features
