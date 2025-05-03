@@ -1,7 +1,5 @@
 import logging
-
 import voluptuous as vol
-
 import homeassistant.helpers.config_validation as cv
 from homeassistant.core import HomeAssistant
 from homeassistant.components.sensor import DOMAIN, SensorDeviceClass
@@ -25,7 +23,6 @@ from . import COMPONENT_DOMAIN, COMPONENT_SERVICES, get_entity_from_domain
 _LOGGER = logging.getLogger(__name__)
 
 DEPENDENCIES = [COMPONENT_DOMAIN]
-
 CONF_NAME = "name"
 CONF_CLASS = "class"
 CONF_INITIAL_VALUE = "initial_value"
@@ -90,7 +87,6 @@ async def async_setup_platform(hass, config, async_add_entities, _discovery_info
         _LOGGER.info("{} service called".format(call.service))
         await async_tester_set_service(hass, call)
 
-    # Build up services...
     if not hasattr(hass.data[COMPONENT_SERVICES], DOMAIN):
         _LOGGER.info("installing handlers")
         hass.data[COMPONENT_SERVICES][DOMAIN] = 'installed'
@@ -105,11 +101,8 @@ class TesterSensor(RestoreEntity):
     def __init__(self, config):
         """Инициализация сенсора"""
         self._name = config.get(CONF_NAME)
-        self.no_domain_ = self._name.startswith("!")
-        if self.no_domain_:
-            self._name = self.name[1:]
+        self._name = self.name[1:]
         self._unique_id = self._name.lower().replace(' ', '_')
-
         self._class = config.get(CONF_CLASS)
         self._state = config.get(CONF_INITIAL_VALUE)
         self._available = config.get(CONF_INITIAL_AVAILABILITY)
@@ -132,10 +125,7 @@ class TesterSensor(RestoreEntity):
 
     @property
     def name(self):
-        if self.no_domain_:
-            return self._name
-        else:
-            return super().name
+        return self._name
 
     @property
     def unique_id(self):

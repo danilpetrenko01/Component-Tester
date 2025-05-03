@@ -1,10 +1,7 @@
 from __future__ import annotations
-
 import logging
 import pprint
-
 import voluptuous as vol
-
 import homeassistant.helpers.config_validation as cv
 from homeassistant.components.light import (
     ATTR_BRIGHTNESS,
@@ -23,7 +20,6 @@ from . import COMPONENT_DOMAIN
 _LOGGER = logging.getLogger(__name__)
 
 DEPENDENCIES = [COMPONENT_DOMAIN]
-
 CONF_NAME = "name"
 CONF_INITIAL_VALUE = "initial_value"
 CONF_SUPPORT_BRIGHTNESS = "support_brightness"
@@ -79,16 +75,11 @@ async def async_setup_platform(_hass, config, async_add_entities, _discovery_inf
 class TesterLight(LightEntity):
 
     def __init__(self, config):
-        
+        """Initialize a Tester light."""
         self._name = config.get(CONF_NAME)
         self._state = config.get(CONF_INITIAL_VALUE)
-        
-       
-        self.no_domain_ = self._name.startswith("!")
-        if self.no_domain_:
-            self._name = self.name[1:]
+        self._name = self.name[1:]
         self._unique_id = self._name.lower().replace(' ', '_')
-
         self._hs_color = None
         self._ct = None
         self._color_mode = None
@@ -97,7 +88,6 @@ class TesterLight(LightEntity):
         self._brightness = None
         self._features = 0
         self._color_modes = ['onoff'];
-
         if config.get(CONF_SUPPORT_BRIGHTNESS):
             self._features |= SUPPORT_BRIGHTNESS
             self._brightness = config.get(CONF_INITIAL_BRIGHTNESS)
@@ -121,10 +111,8 @@ class TesterLight(LightEntity):
 
     @property
     def name(self):
-        if self.no_domain_:
-            return self._name
-        else:
-            return super().name
+        return self._name
+
 
     @property
     def unique_id(self):
@@ -132,17 +120,21 @@ class TesterLight(LightEntity):
 
     @property
     def is_on(self) -> bool:
+        """Возвращает True если включен"""
         return self._state.lower() == "on"
 
     @property
     def supported_features(self):
+        """Помечаем поддерживаемые опции"""
         return self._features
 
     @property
     def supported_color_modes(self):
+        """Поддерживаемые цветовые режимы"""
         return self._color_modes
 
     def turn_on(self, **kwargs):
+        """Включение света"""
         hs_color = kwargs.get(ATTR_HS_COLOR, None)
         if hs_color is not None and self._features & SUPPORT_COLOR:
             self._color_mode = "hs"
@@ -167,36 +159,42 @@ class TesterLight(LightEntity):
         self._state = "on"
 
     def turn_off(self, **kwargs):
-        """Turn the light off."""
+        """Выключение света"""
         _LOGGER.info("turn_off: {}".format(pprint.pformat(kwargs)))
         self._state = "off"
 
     @property
     def brightness(self):
+        """Return the brightness of the light."""
         return self._brightness
 
     @property
     def hs_color(self) -> tuple[float, float] | None:
+        """Return the hs color value."""
         if self._color_mode == "hs":
             return self._hs_color
         return None
 
     @property
     def color_temp(self) -> int | None:
+        """Return the CT color temperature."""
         if self._color_mode == "ct":
             return self._ct
         return None
 
     @property
     def available(self):
+        """Return True if entity is available."""
         return self._available
 
     @property
     def effect_list(self) -> list:
+        """Return the list of supported effects."""
         return self._effect_list
 
     @property
     def effect(self) -> str:
+        """Return the current effect."""
         return self._effect
 
     def set_available(self, value):
@@ -205,6 +203,7 @@ class TesterLight(LightEntity):
 
     @property
     def extra_state_attributes(self):
+        """Return the state attributes."""
 
         attrs = {
             name: value for name, value in (

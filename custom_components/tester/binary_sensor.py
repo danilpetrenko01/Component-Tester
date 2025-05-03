@@ -1,5 +1,4 @@
 import logging
-
 import voluptuous as vol
 
 import homeassistant.helpers.config_validation as cv
@@ -73,19 +72,15 @@ class TesterBinarySensor(BinarySensorEntity):
         self._class = config.get(CONF_CLASS)
         self._state = config.get(CONF_INITIAL_VALUE)
         self._available = config.get(CONF_INITIAL_AVAILABILITY)
-        self.no_domain_ = self._name.startswith("!")
-        if self.no_domain_:
-            self._name = self.name[1:]
+        self._name = self.name[1:]
         self._unique_id = self._name.lower().replace(' ', '_')
 
         _LOGGER.info('TesterBinarySensor: %s created', self._name)
 
     @property
     def name(self):
-        if self.no_domain_:
-            return self._name
-        else:
-            return super().name
+        return self._name
+        
 
     @property
     def unique_id(self):
