@@ -28,9 +28,7 @@ class TesterSwitch(SwitchEntity):
     def __init__(self, config):
         """Инициализация переключателя"""
         self._name = config.get(CONF_NAME)
-        self._name = self.name[1:]
         self._unique_id = self._name.lower().replace(' ', '_')
-
         self._state = config.get(CONF_INITIAL_VALUE)
         self._available = config.get(CONF_INITIAL_AVAILABILITY)
         _LOGGER.info('TesterSwitch: {} created'.format(self._name))

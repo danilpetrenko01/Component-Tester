@@ -78,7 +78,6 @@ class TesterLight(LightEntity):
         """Initialize a Tester light."""
         self._name = config.get(CONF_NAME)
         self._state = config.get(CONF_INITIAL_VALUE)
-        self._name = self.name[1:]
         self._unique_id = self._name.lower().replace(' ', '_')
         self._hs_color = None
         self._ct = None

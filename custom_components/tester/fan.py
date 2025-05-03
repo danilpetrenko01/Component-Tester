@@ -49,7 +49,6 @@ class TesterFan(FanEntity):
     def __init__(self, config):
         """Initialize the entity."""
         self._name = config.get(CONF_NAME)_:
-        self._name = self.name[1:]
         self._unique_id = self._name.lower().replace(' ', '_')
         self._preset_modes = config.get(CONF_MODES, [])
         self._speed_count = config.get(CONF_SPEED_COUNT)

@@ -27,7 +27,6 @@ class TesterLock(LockEntity):
     def __init__(self, config):
         """Инициализация замка"""
         self._name = config.get(CONF_NAME)
-        self._name = self.name[1:]
         self._unique_id = self._name.lower().replace(' ', '_')
 
         self._state = config.get(CONF_INITIAL_VALUE)
