@@ -1,19 +1,15 @@
 import logging
 from distutils import util
-
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.service import verify_domain_control
 from homeassistant.const import ATTR_ENTITY_ID
 from homeassistant.exceptions import HomeAssistantError
-
 import voluptuous as vol
-
-__version__ = '0.1'
 
 _LOGGER = logging.getLogger(__name__)
 
-COMPONENT_DOMAIN = 'tester'
-COMPONENT_SERVICES = 'tester-services'
+TESTER_DOMAIN = 'tester'
+TESTER_SERVICES = 'tester-services'
 
 SERVICE_AVAILABILE = 'set_available'
 SERVICE_SCHEMA = vol.Schema({
@@ -22,18 +18,18 @@ SERVICE_SCHEMA = vol.Schema({
 })
 
 async def async_setup(hass, config):
-    """Выозов тестового устройства"""
+    """Установки интеграции"""
 
-    hass.data[COMPONENT_SERVICES] = {}
+    hass.data[TESTER_SERVICES] = {}
     _LOGGER.debug('setup')
 
-    @verify_domain_control(hass, COMPONENT_DOMAIN)
+    @verify_domain_control(hass, TESTER_DOMAIN)
     async def async_tester_service_set_available(call) -> None:
         """вызов сервисов."""
         _LOGGER.info("{} service called".format(call.service))
         await async_tester_set_availability_service(hass, call)
 
-    hass.services.async_register(COMPONENT_DOMAIN, SERVICE_AVAILABILE, async_tester_service_set_available)
+    hass.services.async_register(TESTER_DOMAIN, SERVICE_AVAILABILE, async_tester_service_set_available)
 
     return True
 

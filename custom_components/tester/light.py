@@ -15,11 +15,11 @@ from homeassistant.components.light import (
     LightEntity,
 )
 from homeassistant.helpers.config_validation import (PLATFORM_SCHEMA)
-from . import COMPONENT_DOMAIN
+from . import TESTER_DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
-DEPENDENCIES = [COMPONENT_DOMAIN]
+DEPENDENCIES = [TESTER_DOMAIN]
 CONF_NAME = "name"
 CONF_INITIAL_VALUE = "initial_value"
 CONF_SUPPORT_BRIGHTNESS = "support_brightness"

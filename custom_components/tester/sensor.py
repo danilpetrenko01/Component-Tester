@@ -18,11 +18,11 @@ from homeassistant.const import (ATTR_ENTITY_ID,
 from homeassistant.helpers.config_validation import PLATFORM_SCHEMA
 from homeassistant.helpers.restore_state import RestoreEntity
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
-from . import COMPONENT_DOMAIN, COMPONENT_SERVICES, get_entity_from_domain
+from . import TESTER_DOMAIN, TESTER_SERVICES, get_entity_from_domain
 
 _LOGGER = logging.getLogger(__name__)
 
-DEPENDENCIES = [COMPONENT_DOMAIN]
+DEPENDENCIES = [TESTER_DOMAIN]
 CONF_NAME = "name"
 CONF_CLASS = "class"
 CONF_INITIAL_VALUE = "initial_value"
@@ -87,11 +87,11 @@ async def async_setup_platform(hass, config, async_add_entities, _discovery_info
         _LOGGER.info("{} service called".format(call.service))
         await async_tester_set_service(hass, call)
 
-    if not hasattr(hass.data[COMPONENT_SERVICES], DOMAIN):
+    if not hasattr(hass.data[TESTER_SERVICES], DOMAIN):
         _LOGGER.info("installing handlers")
-        hass.data[COMPONENT_SERVICES][DOMAIN] = 'installed'
+        hass.data[TESTER_SERVICES][DOMAIN] = 'installed'
         hass.services.async_register(
-            COMPONENT_DOMAIN, SERVICE_SET, async_tester_service, schema=SERVICE_SCHEMA,
+            TESTER_DOMAIN, SERVICE_SET, async_tester_service, schema=SERVICE_SCHEMA,
         )
 
 

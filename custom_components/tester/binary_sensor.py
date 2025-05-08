@@ -5,11 +5,11 @@ import homeassistant.helpers.config_validation as cv
 from homeassistant.components.binary_sensor import (BinarySensorEntity, DOMAIN)
 from homeassistant.const import ATTR_ENTITY_ID
 from homeassistant.helpers.config_validation import (PLATFORM_SCHEMA)
-from . import COMPONENT_DOMAIN, COMPONENT_SERVICES, get_entity_from_domain
+from . import TESTER_DOMAIN, TESTER_SERVICES, get_entity_from_domain
 
 _LOGGER = logging.getLogger(__name__)
 
-DEPENDENCIES = [COMPONENT_DOMAIN]
+DEPENDENCIES = [TESTER_DOMAIN]
 
 CONF_NAME = "name"
 CONF_CLASS = "class"
@@ -49,17 +49,17 @@ async def async_setup_platform(hass, config, async_add_entities, _discovery_info
             await async_tester_toggle_service(hass, call)
 
    
-    if not hasattr(hass.data[COMPONENT_SERVICES], DOMAIN):
+    if not hasattr(hass.data[TESTER_SERVICES], DOMAIN):
         _LOGGER.info("installing handlers")
-        hass.data[COMPONENT_SERVICES][DOMAIN] = 'installed'
+        hass.data[TESTER_SERVICES][DOMAIN] = 'installed'
         hass.services.async_register(
-            COMPONENT_DOMAIN, SERVICE_ON, async_tester_service, schema=SERVICE_SCHEMA,
+            TESTER_DOMAIN, SERVICE_ON, async_tester_service, schema=SERVICE_SCHEMA,
         )
         hass.services.async_register(
-            COMPONENT_DOMAIN, SERVICE_OFF, async_tester_service, schema=SERVICE_SCHEMA,
+            TESTER_DOMAIN, SERVICE_OFF, async_tester_service, schema=SERVICE_SCHEMA,
         )
         hass.services.async_register(
-            COMPONENT_DOMAIN, SERVICE_TOGGLE, async_tester_service, schema=SERVICE_SCHEMA,
+            TESTER_DOMAIN, SERVICE_TOGGLE, async_tester_service, schema=SERVICE_SCHEMA,
         )
 
 

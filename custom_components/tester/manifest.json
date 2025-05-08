@@ -1,7 +1,6 @@
 {
   "domain": "tester",
   "name": "Component Tester",
-  "documentation": "https://www.example.com",
   "codeowners": [
     "@DMPetrenko"
   ],

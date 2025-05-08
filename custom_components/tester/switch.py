@@ -3,6 +3,7 @@ import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.helpers.config_validation import (PLATFORM_SCHEMA)
+from . import TESTER_DOMAIN, TESTER_SERVICES, get_entity_from_domain
 
 _LOGGER = logging.getLogger(__name__)
 
