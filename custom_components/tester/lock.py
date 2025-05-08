@@ -31,6 +31,7 @@ class TesterLock(LockEntity):
 
         self._state = config.get(CONF_INITIAL_VALUE)
         self._available = config.get(CONF_INITIAL_AVAILABILITY)
+        
         _LOGGER.info('TesterLock: {} created'.format(self._name))
 
     @property

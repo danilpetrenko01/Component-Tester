@@ -106,6 +106,7 @@ class TesterLight(LightEntity):
             self._effect = config.get(CONF_INITIAL_EFFECT)
             self._effect_list = config.get(CONF_INITIAL_EFFECT_LIST)
         self._available = config.get(CONF_INITIAL_AVAILABILITY)
+        
         _LOGGER.info('TesterLight: %s created', self._name)
 
     @property
@@ -155,11 +156,14 @@ class TesterLight(LightEntity):
             self._effect = effect
 
         _LOGGER.info("turn_on: {}".format(pprint.pformat(kwargs)))
+        
         self._state = "on"
 
     def turn_off(self, **kwargs):
         """Выключение света"""
+        
         _LOGGER.info("turn_off: {}".format(pprint.pformat(kwargs)))
+        
         self._state = "off"
 
     @property

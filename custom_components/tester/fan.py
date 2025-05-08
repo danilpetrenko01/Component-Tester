@@ -21,11 +21,6 @@ CONF_MODES = "modes"
 CONF_INITIAL_AVAILABILITY = "initial_availability"
 DEFAULT_INITIAL_AVAILABILITY = True
 
-#  PRESET_MODE_AUTO = "auto"
-#  PRESET_MODE_SMART = "smart"
-#  PRESET_MODE_SLEEP = "sleep"
-#  PRESET_MODE_ON = "on"
-
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_NAME): cv.string,
     vol.Optional(CONF_SPEED, default=False): cv.boolean,
@@ -53,12 +48,10 @@ class TesterFan(FanEntity):
         self._speed_count = config.get(CONF_SPEED_COUNT)
         if config.get(CONF_SPEED, False):
             self._speed_count = 3
-
         self._percentage = None
         self._preset_mode = None
         self._oscillating = None
         self._direction = None
-
         self._supported_features = 0
         if self._speed_count > 0:
             self._supported_features |= SUPPORT_SET_SPEED

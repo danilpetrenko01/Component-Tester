@@ -3,7 +3,7 @@ import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.helpers.config_validation import (PLATFORM_SCHEMA)
-from . import TESTER_DOMAIN, TESTER_SERVICES, get_entity_from_domain
+from . import TESTER_DOMAIN, TESTER_SERVICES, get_entity
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -32,6 +32,7 @@ class TesterSwitch(SwitchEntity):
         self._unique_id = self._name.lower().replace(' ', '_')
         self._state = config.get(CONF_INITIAL_VALUE)
         self._available = config.get(CONF_INITIAL_AVAILABILITY)
+        
         _LOGGER.info('TesterSwitch: {} created'.format(self._name))
 
     @property

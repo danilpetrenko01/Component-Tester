@@ -5,7 +5,7 @@ import homeassistant.helpers.config_validation as cv
 from homeassistant.components.binary_sensor import (BinarySensorEntity, DOMAIN)
 from homeassistant.const import ATTR_ENTITY_ID
 from homeassistant.helpers.config_validation import (PLATFORM_SCHEMA)
-from . import TESTER_DOMAIN, TESTER_SERVICES, get_entity_from_domain
+from . import TESTER_DOMAIN, TESTER_SERVICES, get_entity
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -40,17 +40,20 @@ async def async_setup_platform(hass, config, async_add_entities, _discovery_info
 
     async def async_tester_service(call):
         """Вызов сервисов"""
+        
         _LOGGER.info("{} service called".format(call.service))
+        
         if call.service == SERVICE_ON:
             await async_tester_on_service(hass, call)
         if call.service == SERVICE_OFF:
             await async_tester_off_service(hass, call)
         if call.service == SERVICE_TOGGLE:
             await async_tester_toggle_service(hass, call)
-
-   
+ 
     if not hasattr(hass.data[TESTER_SERVICES], DOMAIN):
+    
         _LOGGER.info("installing handlers")
+        
         hass.data[TESTER_SERVICES][DOMAIN] = 'installed'
         hass.services.async_register(
             TESTER_DOMAIN, SERVICE_ON, async_tester_service, schema=SERVICE_SCHEMA,
@@ -65,7 +68,6 @@ async def async_setup_platform(hass, config, async_add_entities, _discovery_info
 
 class TesterBinarySensor(BinarySensorEntity):
     """Реализация бинарного сенсора"""
-
     def __init__(self, config):
         """Инициализация"""
         self._name = config.get(CONF_NAME)
@@ -129,17 +131,23 @@ class TesterBinarySensor(BinarySensorEntity):
 
 async def async_tester_on_service(hass, call):
     for entity_id in call.data['entity_id']:
+    
         _LOGGER.info("{} turning on".format(entity_id))
-        get_entity_from_domain(hass, DOMAIN, entity_id).turn_on()
+        
+        get_entity(hass, DOMAIN, entity_id).turn_on()
 
 
 async def async_tester_off_service(hass, call):
     for entity_id in call.data['entity_id']:
+    
         _LOGGER.info("{} turning off".format(entity_id))
-        get_entity_from_domain(hass, DOMAIN, entity_id).turn_off()
+        
+        get_entity(hass, DOMAIN, entity_id).turn_off()
 
 
 async def async_tester_toggle_service(hass, call):
     for entity_id in call.data['entity_id']:
+    
         _LOGGER.info("{} toggling".format(entity_id))
-        get_entity_from_domain(hass, DOMAIN, entity_id).toggle()
+        
+        get_entity(hass, DOMAIN, entity_id).toggle()
