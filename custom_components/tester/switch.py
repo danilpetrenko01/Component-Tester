@@ -23,7 +23,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 })
 
 async def async_setup_platform(_hass, config, async_add_entities, _discovery_info=None):
-      """Установка платформы сенсора"""
+    """Установка платформы сенсора"""
     switches = [TesterSwitch(config)]
     async_add_entities(switches, True)
 
@@ -41,12 +41,12 @@ class TesterSwitch(SwitchEntity):
 
     @property
     def name(self):
-         """Возвращает имя"""
+        """Возвращает имя"""
         return self._name
 
     @property
     def unique_id(self):
-         """Возвращает уникальный id"""
+        """Возвращает уникальный id"""
         return self._unique_id
 
     @property
