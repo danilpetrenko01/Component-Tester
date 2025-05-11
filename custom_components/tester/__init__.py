@@ -8,10 +8,12 @@ import voluptuous as vol
 
 _LOGGER = logging.getLogger(__name__)
 
-TESTER_DOMAIN = 'tester'
+"""Доменное имя и имя сервисов"""
+TESTER_DOMAIN = 'tester' 
 TESTER_SERVICES = 'tester-services'
 
-SERVICE_AVAILABILE = 'set_available'
+"""Сервис и его схема"""
+SERVICE_AVAILABILE = 'set_available' 
 SERVICE_SCHEMA = vol.Schema({
     vol.Required(ATTR_ENTITY_ID): cv.comp_entity_ids,
     vol.Required('value'): cv.boolean,
@@ -25,14 +27,17 @@ async def async_setup(hass, config):
     
     @verify_domain_control(hass, TESTER_DOMAIN)
     async def async_tester_service_set_available(call) -> None:
-        """вызов сервисов."""
+        """Регистрация сервисов."""
+        
         _LOGGER.info("{} service called".format(call.service))
+        
         await async_tester_set_availability_service(hass, call)
     hass.services.async_register(TESTER_DOMAIN, SERVICE_AVAILABILE, async_tester_service_set_available)
     return True
 
 
 def get_entity(hass, domain, entity_id):
+    """Получение сущности через доменное имя и id сущности"""
     component = hass.data.get(domain)
     if component is None:
         raise HomeAssistantError("{} component not set up".format(domain))
@@ -42,6 +47,7 @@ def get_entity(hass, domain, entity_id):
     return entity
 
 async def async_tester_set_availability_service(hass, call):
+    """Сервис доступности устройств"""
     entity_id = call.data['entity_id']
     value = call.data['value']
     if not type(value)==bool:

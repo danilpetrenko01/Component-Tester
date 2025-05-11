@@ -20,6 +20,8 @@ from . import TESTER_DOMAIN
 _LOGGER = logging.getLogger(__name__)
 
 DEPENDENCIES = [TESTER_DOMAIN]
+
+"""Переменные для лампы, считываемые из конфига"""
 CONF_NAME = "name"
 CONF_INITIAL_VALUE = "initial_value"
 CONF_SUPPORT_BRIGHTNESS = "support_brightness"
@@ -35,6 +37,7 @@ CONF_SUPPORT_EFFECT = "support_effect"
 CONF_INITIAL_EFFECT = "initial_effect"
 CONF_INITIAL_EFFECT_LIST = "initial_effect_list"
 
+"""Значения по умолчанию"""
 DEFAULT_INITIAL_VALUE = "on"
 DEFAULT_SUPPORT_BRIGHTNESS = True
 DEFAULT_INITIAL_BRIGHTNESS = 255
@@ -49,6 +52,7 @@ DEFAULT_SUPPORT_EFFECT = False
 DEFAULT_INITIAL_EFFECT = "none"
 DEFAULT_INITIAL_EFFECT_LIST = ["rainbow", "none"]
 
+"""Схема платформы лампы"""
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_NAME): cv.string,
     vol.Optional(CONF_INITIAL_VALUE, default=DEFAULT_INITIAL_VALUE): cv.string,
@@ -68,6 +72,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 
 async def async_setup_platform(_hass, config, async_add_entities, _discovery_info=None):
+    """Установка платформы лампы"""
     lights = [TesterLight(config)]
     async_add_entities(lights, True)
 
@@ -75,7 +80,7 @@ async def async_setup_platform(_hass, config, async_add_entities, _discovery_inf
 class TesterLight(LightEntity):
 
     def __init__(self, config):
-        """Initialize a Tester light."""
+        """Инициализация лампы"""
         self._name = config.get(CONF_NAME)
         self._state = config.get(CONF_INITIAL_VALUE)
         self._unique_id = self._name.lower().replace(' ', '_')
@@ -111,26 +116,28 @@ class TesterLight(LightEntity):
 
     @property
     def name(self):
+        """Возвращает имя"""
         return self._name
 
 
     @property
     def unique_id(self):
+        """Возвращает уникальный id"""
         return self._unique_id
 
     @property
     def is_on(self) -> bool:
-        """Возвращает True если включен"""
+        """Возвращает True если лампа включена"""
         return self._state.lower() == "on"
 
     @property
     def supported_features(self):
-        """Помечаем поддерживаемые опции"""
+        """Помечает поддерживаемые опции"""
         return self._features
 
     @property
     def supported_color_modes(self):
-        """Поддерживаемые цветовые режимы"""
+        """Возвращает поддерживаемые цветовые режимы"""
         return self._color_modes
 
     def turn_on(self, **kwargs):
@@ -168,45 +175,46 @@ class TesterLight(LightEntity):
 
     @property
     def brightness(self):
-        """Return the brightness of the light."""
+        """Возвращает яркость лампы"""
         return self._brightness
 
     @property
     def hs_color(self) -> tuple[float, float] | None:
-        """Return the hs color value."""
+        """Возвращает цвет в формате hs"""
         if self._color_mode == "hs":
             return self._hs_color
         return None
 
     @property
     def color_temp(self) -> int | None:
-        """Return the CT color temperature."""
+        """Возвращает цветовую температуру"""
         if self._color_mode == "ct":
             return self._ct
         return None
 
     @property
     def available(self):
-        """Return True if entity is available."""
+        """Возвращает True если доступено"""
         return self._available
 
     @property
     def effect_list(self) -> list:
-        """Return the list of supported effects."""
+        """Возвращает список поддерживаемых эффектов"""
         return self._effect_list
 
     @property
     def effect(self) -> str:
-        """Return the current effect."""
+        """Возвращает текущий эффект"""
         return self._effect
 
     def set_available(self, value):
+        """Задает доступность устройства"""
         self._available = value
         self.async_schedule_update_ha_state()
 
     @property
     def extra_state_attributes(self):
-        """Return the state attributes."""
+        """Дополнительная информация"""
 
         attrs = {
             name: value for name, value in (

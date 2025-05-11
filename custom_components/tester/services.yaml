@@ -1,41 +1,40 @@
-
 turn_on:
-  description: Turn on a binary sensor.
+  description: Включение бинарного сенсора.
   fields:
     entity_id:
-      description: Name(s) of entities to turn on
-      example: 'binary_sensor.tester_motion_1'
+      description: Имя включаемой сущности
+      example: 'binary_sensor.test'
 
 turn_off:
-  description: Turn off a binary sensor.
+  description: Выключение бинарного сенсора.
   fields:
     entity_id:
-      description: Name(s) of entities to turn off
-      example: 'binary_sensor.tester_motion_1'
+      description: Имя выключаемой сущности
+      example: 'binary_sensor.test'
 
 toggle:
-  description: Toggle a binary sensor.
+  description: Переключение бинарного сенсора
   fields:
     entity_id:
-      description: Name(s) of entities to toggle
-      example: 'binary_sensor.tester_motion_1'
+      description: Имя переключаемой сущности
+      example: 'binary_sensor.test'
 
 set:
-  description: Set value of a sensor.
+  description: Задать значение сенсора.
   fields:
     entity_id:
-      description: Name(s) of entities to toggle
-      example: 'binary_sensor.tester_motion_1'
+      description: Имя сущности, которой задается значение
+      example: 'sensor.'
     value:
-      description: Value to set
-      example: 10
+      description: задаваемое значение
+      example: 25
 
 set_available:
-  description: Set availability of a entity.
+  description: Задать доступность сущности.
   fields:
     entity_id:
-      description: Name(s) of entities to set
-      example: 'switch.tester_switch_1'
+      description: Имя сущности
+      example: 'switch.test'
     value:
       description: Value to set
       example: false

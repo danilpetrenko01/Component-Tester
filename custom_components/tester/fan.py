@@ -12,6 +12,7 @@ from homeassistant.helpers.config_validation import (PLATFORM_SCHEMA)
 
 _LOGGER = logging.getLogger(__name__)
 
+"""Переменные для вентилятора, считываемые из конфига"""
 CONF_NAME = "name"
 CONF_SPEED = "speed"
 CONF_SPEED_COUNT = "speed_count"
@@ -19,8 +20,11 @@ CONF_OSCILLATE = "oscillate"
 CONF_DIRECTION = "direction"
 CONF_MODES = "modes"
 CONF_INITIAL_AVAILABILITY = "initial_availability"
+
+"""Значения по умолчанию"""
 DEFAULT_INITIAL_AVAILABILITY = True
 
+"""Схема платформы вентилятора"""
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_NAME): cv.string,
     vol.Optional(CONF_SPEED, default=False): cv.boolean,
@@ -33,12 +37,13 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 
 async def async_setup_platform(_hass, config, async_add_entities, _discovery_info=None):
+    """Установка платформы вентилятора"""
     fans = [TesterFan(config)]
     async_add_entities(fans, True)
 
 
 class TesterFan(FanEntity):
-    """Тестовый вентилятор"""
+    """Реализация вентилятора"""
 
     def __init__(self, config):
         """Инициализация."""
@@ -67,26 +72,22 @@ class TesterFan(FanEntity):
 
     @property
     def name(self) -> str:
-        """Имя вентилятора"""
+        """Возвращает имя"""
         return self._name
 
     @property
     def unique_id(self):
-        """Уникальный id"""
+        """Возвращает уникальный id"""
         return self._unique_id
 
     @property
-    def should_poll(self):
-        return False
-
-    @property
     def percentage(self) -> int | None:
-        """Текущая скорость"""
+        """Возвращает текущую скорость в процентах"""
         return self._percentage
 
     @property
     def speed_count(self) -> int:
-        """Возвращает поддерживаемую вентилятором скорость."""
+        """Возвращает поддерживаемое вентилятором число скоростей."""
         return self._speed_count
 
     def set_percentage(self, percentage: int) -> None:
@@ -106,7 +107,7 @@ class TesterFan(FanEntity):
         return self._preset_modes
 
     def set_preset_mode(self, preset_mode: str) -> None:
-        """Создает новый пресет"""
+        """Задает пресет работы"""
         if preset_mode in self.preset_modes:
             self._preset_mode = preset_mode
             self._percentage = None
@@ -115,10 +116,11 @@ class TesterFan(FanEntity):
             raise ValueError(f"Invalid preset mode: {preset_mode}")
 
     def available(self):
-        """Возвращает True если доступен"""
+        """Возвращает True если доступено"""
         return self._available
 
     def set_available(self, value):
+        """Задает доступность устройства"""
         self._available = value
         self.async_schedule_update_ha_state()
 
@@ -144,7 +146,7 @@ class TesterFan(FanEntity):
         self.set_percentage(0)
 
     def set_direction(self, direction: str) -> None:
-        """Задает направление вентилятора"""
+        """Задает возможность работать в двух направлениях"""
         self._direction = direction
         self.schedule_update_ha_state()
 
@@ -155,15 +157,15 @@ class TesterFan(FanEntity):
 
     @property
     def current_direction(self) -> str:
-        """Направление вентилятора"""
+        """Возвращает возможность работать в двух направлениях"""
         return self._direction
 
     @property
     def oscillating(self) -> bool:
-        """Колебание"""
+        """Возвращает колебание вентилятора"""
         return self._oscillating
 
     @property
     def supported_features(self) -> int:
-        """Поддерживаемые возможности"""
+        """Возвращает поддерживаемые возможности"""
         return self._supported_features
