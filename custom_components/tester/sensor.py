@@ -92,6 +92,7 @@ UNITS_OF_MEASUREMENT = {
 
 async def async_setup_platform(hass, config, async_add_entities, _discovery_info=None):
     """Установка платформы сенсора"""
+    
     sensors = [TesterSensor(config)] 
     async_add_entities(sensors, True)
 
@@ -103,7 +104,7 @@ async def async_setup_platform(hass, config, async_add_entities, _discovery_info
         await async_tester_set_service(hass, call)
 
     if not hasattr(hass.data[TESTER_SERVICES], DOMAIN):
-         """Установки сервисов, в случае их отсутствия"""
+        """Установки сервисов, в случае их отсутствия"""
     
         _LOGGER.info("installing handlers")
         
@@ -136,7 +137,7 @@ class TesterSensor(RestoreEntity):
 
     @property
     def unique_id(self):
-         """Возвращает уникальный id"""
+        """Возвращает уникальный id"""
         return self._unique_id
 
     @property
